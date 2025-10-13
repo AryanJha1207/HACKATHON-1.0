@@ -1,0 +1,674 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration | TechFest 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== NAVBAR STYLES ===== */
+        .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #ff6b35;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ff6b35;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b5cf6, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ff6b35);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        /* ===== REGISTRATION HERO SECTION ===== */
+        .registration-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+            margin-top: 80px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.7));
+        }
+
+        .registration-hero-content {
+            max-width: 900px;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .registration-icon-large {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .registration-hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #b8b8d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .registration-subtitle {
+            font-size: 1.4rem;
+            color: #ff6b35;
+            margin-bottom: 3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* ===== REGISTRATION FORM SECTION ===== */
+        .registration-form-section {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .form-container:hover::before {
+            left: 100%;
+        }
+
+        .form-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: #b8b8d1;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: #ff6b35;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group input:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 3.2rem;
+            color: #b8b8d1;
+            transition: all 0.3s ease;
+        }
+
+        .form-group:focus-within .input-icon {
+            color: #8b5cf6;
+        }
+
+        .submit-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #8b5cf6, #ff6b35);
+            color: white;
+            padding: 1.2rem 3.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-button:hover::before {
+            left: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+        }
+
+        .submit-button:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #b8b8d1;
+            font-size: 0.9rem;
+        }
+
+        .form-footer a {
+            color: #ff6b35;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .form-footer a:hover {
+            color: #8b5cf6;
+        }
+
+        /* ===== FORM VALIDATION STYLES ===== */
+        .form-group input:valid {
+            border-color: rgba(40, 167, 69, 0.5);
+        }
+
+        .form-group input:invalid:not(:placeholder-shown) {
+            border-color: rgba(220, 53, 69, 0.5);
+        }
+
+        .validation-hint {
+            display: block;
+            font-size: 0.85rem;
+            color: #b8b8d1;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== SUCCESS MESSAGE ===== */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .success-message:target {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== FOOTER STYLES ===== */
+        .footer {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 3rem 2rem 1rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #b8b8d1;
+            line-height: 1.8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: #8b5cf6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b8b8d1;
+            font-size: 0.9rem;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply animations to elements */
+        .registration-hero-content {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .form-container {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .registration-hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .form-container {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 0;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .nav-links {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li:last-child {
+                margin-top: 0.5rem;
+            }
+            
+            .registration-hero {
+                margin-top: 120px;
+                min-height: 90vh;
+                padding: 0 1rem;
+            }
+            
+            .registration-hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .registration-icon-large {
+                font-size: 4rem;
+            }
+            
+            .registration-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .registration-form-section {
+                padding: 1rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .form-title {
+                font-size: 1.8rem;
+            }
+            
+            .form-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .registration-hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .registration-icon-large {
+                font-size: 3.5rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .login-btn {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .form-title {
+                font-size: 1.6rem;
+            }
+            
+            .form-subtitle {
+                font-size: 1rem;
+            }
+            
+            .submit-button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">TECH<span>FEST</span> 2025</div>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="registration.html" class="active">Register</a></li>
+                <li><a href="login.html" class="login-btn">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== REGISTRATION HERO SECTION ===== -->
+    <section class="registration-hero">
+        <div class="registration-hero-content">
+            <div class="registration-icon-large">📝</div>
+            <h1>Event Registration</h1>
+            <div class="registration-subtitle">Secure Your Spot at TechFest 2025</div>
+            
+            <!-- ===== REGISTRATION FORM SECTION ===== -->
+            <div class="registration-form-section">
+                <div class="form-container">
+                    <h2 class="form-title">Register Now</h2>
+                    <p class="form-subtitle">
+                        Complete the form below to register for TechFest 2025. All fields are required.
+                    </p>
+                    
+                    <form id="registration-form" action="#success" method="get">
+                        <div class="form-group">
+                            <label for="student-name">
+                                <i class="fas fa-user"></i> Student Name
+                            </label>
+                            <input type="text" id="student-name" name="student-name" required 
+                                   placeholder="Enter your full name"
+                                   pattern="[A-Za-z\s]{2,}"
+                                   title="Please enter a valid name (letters and spaces only)">
+                            <div class="input-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <span class="validation-hint">Must contain only letters and spaces (min 2 characters)</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="student-email">
+                                <i class="fas fa-envelope"></i> Student VEDAM Email ID
+                            </label>
+                            <input type="email" id="student-email" name="student-email" required 
+                                   placeholder="name@vedam.edu"
+                                   pattern="[a-z0-9._%+-]+@vedam\.edu$"
+                                   title="Please enter a valid VEDAM email address (must end with @vedam.edu)">
+                            <div class="input-icon">
+                                <i class="fas fa-at"></i>
+                            </div>
+                            <span class="validation-hint">Must be a valid VEDAM email address ending with @vedam.edu</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="urn-number">
+                                <i class="fas fa-id-card"></i> URN Number
+                            </label>
+                            <input type="text" id="urn-number" name="urn-number" required 
+                                   placeholder="Enter your URN number"
+                                   pattern="[A-Za-z0-9]{6,12}"
+                                   title="Please enter a valid URN number (6-12 alphanumeric characters)">
+                            <div class="input-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <span class="validation-hint">Must be 6-12 alphanumeric characters</span>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">
+                            <i class="fas fa-paper-plane"></i> Submit Registration
+                        </button>
+                        
+                        <div class="form-footer">
+                            <p>By registering, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+                        </div>
+                    </form>
+
+                    <!-- Success Message (shown when form is submitted) -->
+                    <div id="success" class="success-message">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Registration Successful!</h3>
+                        <p>Thank you for registering for TechFest 2025. You will receive a confirmation email shortly.</p>
+                        <p><a href="index.html" style="color: #ff6b35; text-decoration: underline;">Return to Homepage</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>TechFest 2025</h4>
+                <p>Celebrating innovation, technology, and the spirit of collaboration. Join us in shaping the future of technology education.</p>
+            </div>
+            <div class="footer-section">
+          
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-map-marker-alt"></i> University Campus, Innovation Drive</p>
+                <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                <p><i class="fas fa-envelope"></i> register@techfest2025.edu</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechFest. All rights reserved. | Designed with ❤️ for the tech community</p>
+        </div>
+    </footer>
+</body>
+</html>

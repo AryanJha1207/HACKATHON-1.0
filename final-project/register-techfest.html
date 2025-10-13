@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for Tech Fest - Vedam School of Technology</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* ===== REGISTRATION PAGE STYLES ===== */
+
+/* Registration Hero */
+.registration-hero {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    margin-top: 80px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(139, 92, 246, 0.1));
+}
+
+.registration-hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.registration-hero-content .event-date {
+    font-size: 1.3rem;
+    color: #ff6b35;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.registration-hero-content .hero-subtitle {
+    font-size: 1.2rem;
+    color: #b8b8d1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Registration Section */
+.registration-section {
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.registration-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Registration Steps */
+.registration-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.registration-steps::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background: linear-gradient(135deg, #8b5cf6, #ff6b35);
+    border-color: #8b5cf6;
+    color: white;
+}
+
+.step-text {
+    font-size: 0.9rem;
+    color: #b8b8d1;
+    font-weight: 500;
+}
+
+.step.active .step-text {
+    color: #8b5cf6;
+}
+
+/* Registration Form */
+.registration-form {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.5rem;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-step h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    color: #b8b8d1;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: #b8b8d1;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.form-group input::placeholder {
+    color: #b8b8d1;
+}
+
+/* Event Selection */
+.events-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.event-category h4 {
+    color: #ff6b35;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.event-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.event-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.event-checkbox:hover {
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.event-checkbox input {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    margin-right: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.event-checkbox input:checked + .checkmark {
+    background: #8b5cf6;
+    border-color: #8b5cf6;
+}
+
+.event-checkbox input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-info strong {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+}
+
+.event-info span {
+    color: #b8b8d1;
+    font-size: 0.9rem;
+}
+
+.event-info small {
+    color: #ff6b35;
+    font-weight: 600;
+}
+
+.team-section {
+    background: rgba(139, 92, 246, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.team-section h4 {
+    color: #8b5cf6;
+    margin-bottom: 1rem;
+}
+
+/* Payment Section */
+.payment-summary {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.payment-summary h4 {
+    color: #ff6b35;
+    margin-bottom: 1rem;
+}
+
+.summary-items {
+    margin-bottom: 1rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.2rem;
+}
+
+.payment-methods {
+    margin-bottom: 2rem;
+}
+
+.payment-methods h4 {
+    color: #ff6b35;
+    margin-bottom: 1rem;
+}
+
+.payment-options {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 150px;
+}
+
+.payment-option:hover {
+    border-color: #8b5cf6;
+}
+
+.payment-option input {
+    display: none;
+}
+
+.radio-checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    margin-right: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.payment-option input:checked + .radio-checkmark {
+    border-color: #8b5cf6;
+}
+
+.payment-option input:checked + .radio-checkmark::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: #8b5cf6;
+    border-radius: 50%;
+}
+
+.payment-icon {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.card-details {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* Confirmation Step */
+.confirmation-content {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.confirmation-content h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #22c55e;
+}
+
+.confirmation-content p {
+    color: #b8b8d1;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.registration-details {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Form Navigation */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prev-btn,
+.next-btn {
+    background: linear-gradient(135deg, #8b5cf6, #ff6b35);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.prev-btn {
+    background: transparent;
+    border: 2px solid #8b5cf6;
+    color: #8b5cf6;
+}
+
+.prev-btn:hover {
+    background: #8b5cf6;
+    color: white;
+}
+
+.next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .registration-hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .registration-steps {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .registration-steps::before {
+        display: none;
+    }
+    
+    .step {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .payment-options {
+        flex-direction: column;
+    }
+    
+    .confirmation-actions {
+        flex-direction: column;
+    }
+    
+    .form-navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .prev-btn,
+    .next-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">VEDAM<span></span></div>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+        
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="login-btn">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="registration-hero">
+        <div class="registration-hero-content">
+            <div class="event-icon-large">🚀</div>
+            <h1>Register for <span class="gradient-text">Tech Fest 2024</span></h1>
+            <p class="event-date">March 15-17, 2024 | Main Campus</p>
+            <p class="hero-subtitle">Join the biggest technology extravaganza of the year. Register now to participate in exciting competitions and workshops.</p>
+        </div>
+    </section>
+
+    <section class="registration-section">
+        <div class="registration-container">
+            <div class="registration-steps">
+                <div class="step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Personal Info</span>
+                </div>
+                <div class="step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Event Selection</span>
+                </div>
+                <div class="step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Payment</span>
+                </div>
+                <div class="step" data-step="4">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Confirmation</span>
+                </div>
+            </div>
+
+            <form class="registration-form" id="registrationForm">
+                <!-- Step 1: Personal Information -->
+                <div class="form-step active" id="step1">
+                    <h3>Personal Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="college">College/University *</label>
+                            <input type="text" id="college" name="college" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Course/Department *</label>
+                            <input type="text" id="course" name="course" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Academic Year *</label>
+                            <select id="year" name="year" required>
+                                <option value="">Select Year</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                                <option value="postgrad">Post Graduate</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" class="next-btn" onclick="nextStep(1)">Next →</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Event Selection -->
+                <div class="form-step" id="step2">
+                    <h3>Select Events to Participate</h3>
+                    <p class="form-subtitle">Choose the competitions and workshops you want to participate in:</p>
+                    
+                    <div class="events-selection">
+                        <div class="event-category">
+                            <h4>🏆 Competitions</h4>
+                            <div class="event-options">
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="events" value="code-wars">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>Code Wars</strong>
+                                        <span>Programming Challenge</span>
+                                        <small>₹200 per team</small>
+                                    </div>
+                                </label>
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="events" value="robo-race">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>Robo Race</strong>
+                                        <span>Robotics Competition</span>
+                                        <small>₹500 per team</small>
+                                    </div>
+                                </label>
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="events" value="app-dev">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>App Dev Challenge</strong>
+                                        <span>Mobile App Development</span>
+                                        <small>₹300 per team</small>
+                                    </div>
+                                </label>
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="events" value="ai-hackathon">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>AI Hackathon</strong>
+                                        <span>Machine Learning Contest</span>
+                                        <small>₹400 per team</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="event-category">
+                            <h4>🎯 Workshops</h4>
+                            <div class="event-options">
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="workshops" value="blockchain">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>Blockchain & Web3</strong>
+                                        <span>Development Workshop</span>
+                                        <small>₹150 per person</small>
+                                    </div>
+                                </label>
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="workshops" value="ml-python">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>ML with Python</strong>
+                                        <span>Hands-on Workshop</span>
+                                        <small>₹100 per person</small>
+                                    </div>
+                                </label>
+                                <label class="event-checkbox">
+                                    <input type="checkbox" name="workshops" value="cloud-aws">
+                                    <span class="checkmark"></span>
+                                    <div class="event-info">
+                                        <strong>Cloud Computing AWS</strong>
+                                        <span>Cloud Workshop</span>
+                                        <small>₹200 per person</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="team-section">
+                            <h4>👥 Team Information</h4>
+                            <div class="form-group">
+                                <label for="teamName">Team Name (if applicable)</label>
+                                <input type="text" id="teamName" name="teamName">
+                            </div>
+                            <div class="form-group">
+                                <label for="teamSize">Team Size</label>
+                                <select id="teamSize" name="teamSize">
+                                    <option value="1">Individual</option>
+                                    <option value="2">2 Members</option>
+                                    <option value="3">3 Members</option>
+                                    <option value="4">4 Members</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="prev-btn" onclick="prevStep(2)">← Previous</button>
+                        <button type="button" class="next-btn" onclick="nextStep(2)">Next →</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment -->
+                <div class="form-step" id="step3">
+                    <h3>Payment Details</h3>
+                    
+                    <div class="payment-summary">
+                        <h4>Registration Summary</h4>
+                        <div class="summary-items" id="summaryItems">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        <div class="total-amount">
+                            <strong>Total Amount: ₹<span id="totalAmount">0</span></strong>
+                        </div>
+                    </div>
+
+                    <div class="payment-methods">
+                        <h4>Select Payment Method</h4>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="card" checked>
+                                <span class="radio-checkmark"></span>
+                                <span class="payment-icon">💳</span>
+                                <span>Credit/Debit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="upi">
+                                <span class="radio-checkmark"></span>
+                                <span class="payment-icon">📱</span>
+                                <span>UPI Payment</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="netbanking">
+                                <span class="radio-checkmark"></span>
+                                <span class="payment-icon">🏦</span>
+                                <span>Net Banking</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card-details" id="cardDetails">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardName">Name on Card</label>
+                                <input type="text" id="cardName" name="cardName">
+                            </div>
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" name="expiry" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="prev-btn" onclick="prevStep(3)">← Previous</button>
+                        <button type="button" class="next-btn" onclick="nextStep(3)">Proceed to Pay</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Confirmation -->
+                <div class="form-step" id="step4">
+                    <div class="confirmation-content">
+                        <div class="success-icon">✅</div>
+                        <h3>Registration Successful!</h3>
+                        <p>Thank you for registering for Tech Fest 2024. Your registration has been confirmed.</p>
+                        
+                        <div class="registration-details">
+                            <div class="detail-item">
+                                <strong>Registration ID:</strong>
+                                <span id="regId">TECH2024-001</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Name:</strong>
+                                <span id="confirmName">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Events Registered:</strong>
+                                <span id="confirmEvents">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Total Paid:</strong>
+                                <span id="confirmAmount">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="confirmation-actions">
+                            <a href="techfest.html" class="cta-button">Back to Event</a>
+                            <a href="home.html" class="cta-button secondary">Go to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VEDAMTECH</h4>
+                <p>Empowering minds, shaping futures</p>
+            </div>
+            <!-- <div class="footer-section"> -->
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <p>Email: info@vedamtech.edu</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Vedam School of Technology. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
